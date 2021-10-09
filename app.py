@@ -69,12 +69,7 @@ def bg_sub(file):
                 final_img[y,x] = white_pix
     return final_img
 
-def feature_extract(img):    
-  #  names = ['area','perimeter','pysiological_length','pysiological_width','aspect_ratio','rectangularity','circularity', \
-   #          'mean_r','mean_g','mean_b','stddev_r','stddev_g','stddev_b', \
-   #          'contrast','correlation','inverse_difference_moments','entropy'
-   #         ]
-   # df = pd.DataFrame([], columns=names)
+def feature_extract(img):  
 
     #Preprocessing
     gs = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
@@ -124,11 +119,9 @@ def feature_extract(img):
              ]
 
     df_temp = pd.DataFrame([vector])
-    #df = df.append(df_temp)
+
     print(vector)
     
-    #sc_X = StandardScaler()
-    #df_temp = sc_X.transform(df_temp)
     print(df_temp)
 
     return df_temp           
@@ -153,19 +146,19 @@ app = Flask(__name__)
 #
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #
-
+i = 0
 
 @app.route('/ndvi', methods=['GET','POST'])
 def basic():
 	if request.method == 'POST':
 		if request.form['submit'] == 'add':
-                    todos = db.child("Sensor").get()
+                    ndvis = db.child("Sensor").get()
                     name = request.form['name']
-                    for todo in todos.each():
-                            while (todo.key() == name):
-                                todo = db.child("Sensor").child(name).get()
-                                to = todo.val()
-                                print (todo.key())
+                    for ndvi in ndvis.each():
+                            while (ndvi.key() == name):
+                                ndvi = db.child("Sensor").child(name).get()
+                                to = ndvi.val()
+                                print (ndvi.key())
                                 return render_template('index.html', t=to.values())
 
 	return render_template('index.html', mess = "Please enter right device ID")
@@ -193,7 +186,8 @@ def upload_file():
             featuresOfimg = feature_extract(bg_remove_img)
             scaled_feature = sc_X.transform(featuresOfimg)
             print(scaled_feature)
-            output = model.predict(scaled_feature)
+            output = model.predict_proba(scaled_feature)[0]
+            out = {'Organic:': output[0], 'Inorganic': output[1]}
     return render_template("search.html", label=output, imagesource=file_path)
 
 #
