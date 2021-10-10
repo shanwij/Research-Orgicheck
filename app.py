@@ -8,23 +8,6 @@ from flask import Flask, request, redirect, url_for, send_from_directory, render
 import pyrebase
 import joblib
 
-#
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
-UPLOAD_FOLDER = 'uploads'
-
-outFileFolder = './model/'
-fileP = outFileFolder + 'org_Cu_Model.joblib'
-stdp = outFileFolder + 'std_scaler.bin'
-    #open file
-mfile = open(fileP, "rb")
-sfile = open(stdp, "rb")
-#load the trained model
-model = joblib.load(mfile) 
-sc_X = joblib.load(sfile)
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 def bg_sub(file):
@@ -142,9 +125,7 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
 app = Flask(__name__)
-#
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-#
+
 i = 0
 
 @app.route('/ndvi', methods=['GET','POST'])
@@ -169,32 +150,26 @@ def ss():
 
 @app.route("/")
 def template_test():
-    return render_template('search.html', label='', imagesource='')
+    return render_template('search.html')
 
 
 @app.route('/', methods=['GET','POST'])
 def upload_file():
-    if request.method == 'POST':
-        file = request.files['file']
+    #if request.method == 'POST':
+       # file = request.files['file']
         
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            bg_remove_img = bg_sub(file_path)
-            featuresOfimg = feature_extract(bg_remove_img)
-            scaled_feature = sc_X.transform(featuresOfimg)
-            print(scaled_feature)
-            output = model.predict_proba(scaled_feature)[0]
-            out = {'Organic:': output[0], 'Inorganic': output[1]}
-    return render_template("search.html", label=output, imagesource=file_path)
+       # if file and allowed_file(file.filename):
+       #     filename = secure_filename(file.filename)
+       #     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+       #     file.save(file_path)
+       #     bg_remove_img = bg_sub(file_path)
+       #     featuresOfimg = feature_extract(bg_remove_img)
+       #     scaled_feature = sc_X.transform(featuresOfimg)
+       #     print(scaled_feature)
+            #output = model.predict_proba(scaled_feature)[0]
+       #     out = {'Organic:': output[0], 'Inorganic': output[1]}
+    return render_template("search.html")
 
-#
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
-#
 
 
 if __name__ == '__main__':
