@@ -1,4 +1,4 @@
-import os
+#import os
 import cv2
 import mahotas as mt
 #from werkzeug.utils import secure_filename
@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 import pyrebase
-import joblib
+#import joblib
 
 
 
