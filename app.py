@@ -1,5 +1,5 @@
 import os
-#import cv2
+import cv2
 import mahotas as mt
 #from werkzeug.utils import secure_filename
 import numpy as np
