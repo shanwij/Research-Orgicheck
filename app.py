@@ -1,6 +1,6 @@
 #import os
-import cv2
-import mahotas as mt
+#import cv2
+#import mahotas as mt
 #from werkzeug.utils import secure_filename
 import numpy as np
 import pandas as pd
@@ -49,10 +49,9 @@ def basic():
 def ss():
 	    return render_template('admin.html')
 
-@app.route("/")
+@app.route('/')
 def template_test():
         return render_template('search.html')
-
 
 
 
