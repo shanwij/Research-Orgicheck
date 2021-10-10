@@ -1,7 +1,7 @@
 import os
 import cv2
 import mahotas as mt
-from werkzeug.utils import secure_filename
+#from werkzeug.utils import secure_filename
 import numpy as np
 import pandas as pd
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
@@ -51,7 +51,7 @@ def ss():
 
 @app.route("/")
 def template_test():
-    return render_template('search.html')
+        return render_template('search.html')
 
 
 
