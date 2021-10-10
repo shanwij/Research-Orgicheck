@@ -54,23 +54,6 @@ def template_test():
     return render_template('search.html')
 
 
-@app.route('/', methods=['GET','POST'])
-def upload_file():
-    #if request.method == 'POST':
-       # file = request.files['file']
-        
-       # if file and allowed_file(file.filename):
-       #     filename = secure_filename(file.filename)
-       #     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-       #     file.save(file_path)
-       #     bg_remove_img = bg_sub(file_path)
-       #     featuresOfimg = feature_extract(bg_remove_img)
-       #     scaled_feature = sc_X.transform(featuresOfimg)
-       #     print(scaled_feature)
-            #output = model.predict_proba(scaled_feature)[0]
-       #     out = {'Organic:': output[0], 'Inorganic': output[1]}
-    return render_template("search.html")
-
 
 
 if __name__ == '__main__':
