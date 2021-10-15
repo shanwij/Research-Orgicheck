@@ -1,3 +1,4 @@
+import json
 import os
 import cv2
 import mahotas as mt
@@ -156,23 +157,24 @@ def basic():
                     for ndvi in ndvis.each():
                             while (ndvi.key() == name):
                                 ndvi = db.child("Sensor").child(name).get()
-                                to = ndvi.val()
-                                print (ndvi.key())
-                                return render_template('index.html', t=to.values())
+                                dict_ndvi = dict(ndvi.val())
+                                val_ndvi = dict_ndvi['ndvi']
+                                val_vis = dict_ndvi['vis']
+                                val_nir = dict_ndvi['nir']
+                                return render_template('orangeNdvi.html', n = val_ndvi , v = val_vis, r = val_nir )
 
-	return render_template('index.html', mess = "Please enter right device ID")
+	return render_template('orangeNdvi.html', mess = "Please enter right device ID")
 
-
-@app.route('/home')
+@app.route('/')
 def ss():
-	    return render_template('admin.html')
+	    return render_template('client.html')
 
-@app.route("/")
+@app.route("/cucumber")
 def template_test():
-    return render_template('search.html', label='', imagesource='')
+    return render_template('cucumberOrg.html', label='', imagesource='')
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/cucumber', methods=['GET','POST'])
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
@@ -187,7 +189,7 @@ def upload_file():
             print(scaled_feature)
             output = model.predict_proba(scaled_feature)[0]
             out = {'Organic:': output[0], 'Inorganic': output[1]}
-    return render_template("search.html", label=output, imagesource=file_path)
+    return render_template("cucumberOrg.html", label=output, imagesource=file_path)
 
 #
 @app.route('/uploads/<filename>')
