@@ -1,6 +1,7 @@
 import os
 import cv2
 import mahotas as mt
+from pyasn1.type.univ import Null
 from werkzeug.utils import secure_filename
 import numpy as np
 import pandas as pd
@@ -171,7 +172,7 @@ def refresh(device_name):
     val_vis = dict_ndvi['vis']
     val_nir = dict_ndvi['nir']
     return render_template('orangeNdvi.html', n = val_ndvi , v = val_vis, r = val_nir ,key = ndvi.key(), conn = " Connected" )
-
+    
 
 @app.route('/')
 def home():

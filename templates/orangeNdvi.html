@@ -85,40 +85,22 @@
     </section>
 
     <!-- Newsletter -->
-    <section class="bg-success text-light p-5">
+    <section class="bg-light text-light p-3">
       <div class="container">
         <div class="d-md-flex justify-content-between align-items-center">
-          <h4 class="mb-3 mb-md-0">Enter your NDVI device Id <span class="text-warning"> OrgiCheck&trade; Smart</span></h4>
+          <h4 class="mb-3 mb-md-0 text-dark">Enter your NDVI device Id <span class="text-warning"> OrgiCheck&trade; Smart</span></h4>
           <form action="/ndvi#result" method="post">
           <div class="input-group">
             <input type="text" name="name" class="form-control" placeholder="Enter ip address" required/>
             <button class="btn btn-dark btn-lg" type="submit" name="submit" value="add">Connect</button>
           </div>
           </form>
-          <span style="padding-left:50px;" class="mb-3 mb-md-0">{{conn}}</span>
+          <span style="padding-left:50px;" class="mb-3 mb-md-0 text-dark">{{conn}}</span>
         </div>
       </div>
     </section>
 
     <!-- Boxes -->
-    <section id="check" class="p-5">
-      <div class="container">
-        <div class="row text-center g-4">
-          <div class="col-md">
-            <div class="card bg-dark text-light">
-              <div class="card-body text-center">
-                <div class="h1 mb-3">
-                  <i class="bi bi-bookmark-heart"></i>
-                </div>
-                <h3 class="card-title mb-3">Check organic content</h3>
-                <a href="/refresh/{{key}}#result"><button type="submit" name="submit" value="add" class="btn btn-success">Refresh</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="result" class="p-5 bg-success">
         <div class="container">
           <h2 class="text-center text-white">Result</h2>
@@ -129,7 +111,6 @@
             <div class="col-md-6">
               <div class="card bg-light">
                 <div class="card-body text-center">
-                    <br>
                     <p>The device developed uses Near Infrared rays to check organic 
                         content of the subject.Their displays the measured value in terms of an NDVI reading (ranging from 0.00 to 0.99)</p>
                     <br>    
@@ -138,7 +119,7 @@
                   <div class="progress">
                     
                   </div>
-                <p style="float: left;">| 0 High pesticades</p><p style="float:right">Low pesticades 1 |</p>
+                <p style="float: left;">| 0 High pesticides</p><p style="float:right">Low pesticides 1 |</p>
                 </div>
               </div>
             </div>
@@ -151,12 +132,13 @@
                   <br>
         
                   <div class="container-fluid">
-                    {{n}}
-                    {{v}}
-                    {{r}}
-                    
+                    {% if n %}
+                    <h4>Organic content = {{n}} (NDVI)</h4>
+                    <h5>Visible reflection = {{v}} lux</h5>
+                    <h5>Nir reflection = {{r}} lux</h5>
+                    {% endif %}
                     {% if mess %}
-                      <p class="test-center"> {{ mess }}</p>
+                      <h2 class="test-center"> {{ mess }}</h2>
                 
                       {% endif %} 
                   </div>
@@ -167,7 +149,25 @@
           </div>
         </div>
       </section>
-
+      <section id="check" class="p-5">
+        <div class="container">
+          <div class="row text-center g-4">
+            <div class="col-md" id="toggle">
+              <div class="card bg-dark text-light">
+                {% if key %}
+                <div class="card-body text-center" >
+                  <div class="h1 mb-3">
+                    <i class="bi bi-bookmark-heart"></i>
+                  </div>
+                  <h3 class="card-title mb-3">Check organic content</h3>
+                  <a href="/refresh/{{key}}"><button type="submit" name="submit" value="add" class="btn btn-success">Refresh</button></a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
     <section id="team" class="p-5 bg-dark bg-success">
       <div class="container">
