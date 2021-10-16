@@ -1,4 +1,3 @@
-import json
 import os
 import cv2
 import mahotas as mt
@@ -146,7 +145,6 @@ app = Flask(__name__)
 #
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #
-i = 0
 
 @app.route('/ndvi', methods=['GET','POST'])
 def basic():
@@ -158,15 +156,25 @@ def basic():
                             while (ndvi.key() == name):
                                 ndvi = db.child("Sensor").child(name).get()
                                 dict_ndvi = dict(ndvi.val())
-                                val_ndvi = dict_ndvi['ndvi']
+                                val_ndvi = round(dict_ndvi['ndvi'], 2)
                                 val_vis = dict_ndvi['vis']
                                 val_nir = dict_ndvi['nir']
-                                return render_template('orangeNdvi.html', n = val_ndvi , v = val_vis, r = val_nir )
+                                return render_template('orangeNdvi.html', n = val_ndvi , v = val_vis, r = val_nir ,key = ndvi.key(), conn = " Connected" )
 
 	return render_template('orangeNdvi.html', mess = "Please enter right device ID")
 
+@app.route('/refresh/<device_name>')
+def refresh(device_name):
+    ndvi = db.child("Sensor").child(device_name).get()
+    dict_ndvi = dict(ndvi.val())
+    val_ndvi = round(dict_ndvi['ndvi'], 2)
+    val_vis = dict_ndvi['vis']
+    val_nir = dict_ndvi['nir']
+    return render_template('orangeNdvi.html', n = val_ndvi , v = val_vis, r = val_nir ,key = ndvi.key(), conn = " Connected" )
+
+
 @app.route('/')
-def ss():
+def home():
 	    return render_template('client.html')
 
 @app.route("/cucumber")

@@ -63,7 +63,7 @@
               to check whether you are paying real value of vegetable and fruits.
             </p>
             <a href="#check" class="btn btn-success btn-lg">
-              Get Start
+              Instructions
             </a>
             <!-- <button
               class="btn btn-success btn-lg"
@@ -88,14 +88,14 @@
     <section class="bg-success text-light p-5">
       <div class="container">
         <div class="d-md-flex justify-content-between align-items-center">
-          <h4 class="mb-3 mb-md-0">Enter your device ip address <span class="text-warning"> OrgiCheck&trade; Smart</span></h4>
-          <form action="#result" method="post">
+          <h4 class="mb-3 mb-md-0">Enter your NDVI device Id <span class="text-warning"> OrgiCheck&trade; Smart</span></h4>
+          <form action="/ndvi#result" method="post">
           <div class="input-group">
-            <input type="text" name="name" class="form-control" required placeholder="Enter ip address" />
+            <input type="text" name="name" class="form-control" placeholder="Enter ip address" required/>
             <button class="btn btn-dark btn-lg" type="submit" name="submit" value="add">Connect</button>
           </div>
           </form>
-          <span style="padding-left:50px;" class="mb-3 mb-md-0">Connected...</span>
+          <span style="padding-left:50px;" class="mb-3 mb-md-0">{{conn}}</span>
         </div>
       </div>
     </section>
@@ -111,7 +111,7 @@
                   <i class="bi bi-bookmark-heart"></i>
                 </div>
                 <h3 class="card-title mb-3">Check organic content</h3>
-                <a href="#result"><button data-bs-toggle="modal" class="btn btn-success">NDVI</button></a>
+                <a href="/refresh/{{key}}#result"><button type="submit" name="submit" value="add" class="btn btn-success">Refresh</button></a>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@
                     <p>The device developed uses Near Infrared rays to check organic 
                         content of the subject.Their displays the measured value in terms of an NDVI reading (ranging from 0.00 to 0.99)</p>
                     <br>    
-                        <h4 class="card-title mb-3">Organic content - {{n}} (NDVI)</h3>
+                        <h4 id="data" class="card-title mb-3">Organic content - {{n}} (NDVI)</h3>
                     <br>
                   <div class="progress">
                     
@@ -327,7 +327,7 @@
   </script>
   <script type="text/javascript">    
     $(document).ready(function(){    
-     var progressBarVal= "{{n}}";    
+     var progressBarVal= "{{n}}" * 100;    
      var html="<div class='progress-bar bg-success progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow="+progressBarVal+" aria-valuemin='0' aria-valuemax='100' style='width:"+progressBarVal+"%'></div>";    
      $(".progress").append(html);    
     });    
