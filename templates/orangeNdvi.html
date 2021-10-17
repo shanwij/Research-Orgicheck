@@ -111,13 +111,13 @@
           </p>
           <div class="row g-4">
             <div class="col-md-6">
-              <div class="card bg-light">
+              <div class="card" style="background: linear-gradient(180deg,#f5f4f3,#aee4ae);">
                 <div class="card-body text-center">
                     <p>The device developed uses Near Infrared rays to check organic 
                         content of the subject.Their displays the measured value in terms of an NDVI reading (ranging from 0.00 to 0.99)</p>
-                    <br>    
-                        <h4 id="data" class="card-title mb-3">Organic content - {{n}} (NDVI)</h3>
-                    <br>
+                    <hr>    
+                        <h4 id="data" class="card-title mb-3">Organic content - <span class="text-success" >{{n}}</span> (NDVI)</h3>
+                    <hr>
                   <div class="progress">
                     
                   </div>
@@ -127,12 +127,12 @@
             </div>
   
             <div class="col-md-6">
-              <div class="card bg-light">
+              <div class="card" style="background: linear-gradient(180deg,#e4e3e1,#aceca6);">
                 <div class="card-body text-center">
                 <br>
-                  <h3 class="card-title mb-3">Organic content</h3>
+                  <h3 class="card-title mb-3"> <i class="bi bi-bookmark-heart"></i> Organic content</h3>
+                  <hr>
                   <br>
-        
                   <div class="container-fluid">
                     {% if n %}
                     <h4>Organic content = {{n}} (NDVI)</h4>
@@ -140,11 +140,10 @@
                     <h5>Nir reflection = {{r}} lux</h5>
                     {% endif %}
                     {% if mess %}
-                      <h2 class="test-center"> {{ mess }}</h2>
+                      <h2 class="text-center text-danger"> {{ mess }}</h2>
                 
                       {% endif %} 
                   </div>
-                    <br>
                 </div>
               </div>
             </div>
