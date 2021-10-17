@@ -196,9 +196,17 @@ def upload_file():
             featuresOfimg = feature_extract(bg_remove_img)
             scaled_feature = sc_X.transform(featuresOfimg)
             print(scaled_feature)
-            output = model.predict_proba(scaled_feature)[0]
-            out = {'Organic:': output[0], 'Inorganic': output[1]}
-    return render_template("cucumberOrg.html", label=output, imagesource=file_path)
+            output = model.predict_proba(scaled_feature)
+            vx = output.reshape(-1,1)
+            org = round(vx[0][0], 2)*100
+            inor = round(vx[1][0], 2)*100
+
+            if( org >= 50):
+                p = "Organic"
+            else:
+                p = "Inorganic"
+
+    return render_template("cucumberOrg.html",pred1 = p, labelOrg=org,labelIno=inor, imagesource=file_path)
 
 #
 @app.route('/uploads/<filename>')

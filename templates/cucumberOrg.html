@@ -39,7 +39,7 @@
         <div class="collapse navbar-collapse" id="navmenu">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a href="#cam" class="nav-link">Device Connection</a>
+              <a href="#cam" class="nav-link">Camera Device Connection</a>
             </li>
             <li class="nav-item">
               <a href="#team" class="nav-link">Team</a>
@@ -92,7 +92,7 @@
             <input type="text" class="form-control" placeholder="Enter ip address" />
             <button class="btn btn-dark btn-lg" type="button">Connect</button>
           </div>
-          <span style="padding-left:50px;" class="mb-3 mb-md-0">Connected...</span>
+          <span style="padding-left:50px;" class="mb-3 mb-md-0"></span>
         </div>
       </div>
     </section>
@@ -135,27 +135,59 @@
             <span class="text-warning"> OrgiCheck&trade; Smart</span>
           </p>
           <div class="row g-4">
-            <div class="col-md-6">
-              <div class="card bg-light">
-                <div class="card-body text-center">
-                  <img
-                    src="{{imagesource}}"
-                    style="max-width:560px;"
-                    alt=""
-                  />
+            <div class="col-lg-6 d-flex flex-column">
+              <div class="row">
+                <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                  <div class="card card-rounded">
+                    <div class="card-body h-75">
+                      <div class="card bg-light">
+                        <div class="card-body text-center">
+                          {% if imagesource %}
+                          <img
+                            src="{{imagesource}}"
+                            style="width: 500px;"
+                            alt=""
+                          />
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-  
-            <div class="col-md-6">
-              <div class="card bg-light">
-                <div class="card-body text-center">
-                  <img
-                    src="http://www.cssmyschool.info/schimg/done.gif"
-                    style="max-width:140px;"
-                    alt=""
-                  />
-                  <h3 class="card-title mb-3">{{label}}</h3>
+            <div class="col-lg-6 d-flex flex-column">
+              <div class="row">
+                <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                  <div class="card card-rounded">
+                    <div class="card-body h-75">
+                      <div class="card bg-light">
+                        <div class="card-body text-center">
+                          {% if pred1 %}
+                          {% if pred1 == "Organic" %}
+                          <img
+                            src="http://www.cssmyschool.info/schimg/done.gif"
+                            style="width:50px;"
+                            alt=""
+                          />
+                          <h5 class="card-title mb-3">Its {{pred1}}</h5>
+                          <h4 class="card-title mb-3">Organic = {{labelOrg}} %</h4>
+                          <h4 class="card-title mb-3">Inorganic = {{labelIno}} %</h4>
+                          {% else %}
+                          <img
+                            src="{{ url_for('static',filename='img/wrong.gif') }}"
+                            style="width: 100px;"
+                            alt=""
+                          />
+                          <h5 class="card-title mb-3">Its {{pred1}}</h5>
+                          <h4 class="card-title mb-3">Inorganic = {{labelIno}} %</h4>
+                          <h4 class="card-title mb-3">Organic = {{labelOrg}} %</h4>
+                          {% endif %}
+                        {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
