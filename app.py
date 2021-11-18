@@ -1,3 +1,5 @@
+import math
+import random
 import os
 import cv2
 import mahotas as mt
@@ -8,6 +10,12 @@ import pandas as pd
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 import pyrebase
 import joblib
+from PIL import Image
+from io import BytesIO
+from keras_preprocessing import image
+from datetime import date
+from keras.models import load_model
+import csv
 
 #
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
@@ -22,6 +30,7 @@ sfile = open(stdp, "rb")
 #load the trained model
 model = joblib.load(mfile) 
 sc_X = joblib.load(sfile)
+model1 = load_model('imgClassification.h5')
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -214,6 +223,100 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 #
+
+#Giwi
+
+@app.route("/classify", methods = ["POST"])
+def classify():
+    image_path = "https://static9.depositphotos.com/1628352/1107/i/600/depositphotos_11071200-stock-photo-cabbage.jpg"
+    class_names = ['banana', 'cabbage', 'cucumber', 'mango', 'orange', 'tomato']
+    img = Image.open(BytesIO(request.urlopen(image_path).read())).resize((224, 224))
+    # img = image.load_img(request.urlopen(image_path), target_size=(224,224,3))
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    images = np.vstack([x])
+    pred = model1.predict(images, batch_size=6)
+    label = np.argmax(pred, axis=1)
+    out = class_names[np.argmax(pred)]
+    return render_template("predi.html", prediction_text_class = out)
+
+@app.route("/price", methods = ["POST"])
+def price():
+    today = date.today()
+    dt = today.strftime("%d/%m/%Y")
+    image_path = "http://192.168.8.103/capture?_cb=1634477807414"
+    wt = random.randint(380, 560)
+    class_names = ['banana', 'cabbage', 'cucumber', 'mango', 'orange', 'tomato']
+    img = Image.open(BytesIO(request.urlopen(image_path).read())).resize((224, 224))
+    # img = image.load_img(request.urlopen(image_path), target_size=(224,224,3))
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    images = np.vstack([x])
+    pred = model1.predict(images, batch_size=6)
+    label = np.argmax(pred, axis=1)
+    out = class_names[np.argmax(pred)]
+
+
+    with open('data/Predict_vegetable_2021_SL.csv', encoding="utf8") as f:
+        csv_reader = csv.DictReader(f)
+        next(csv_reader)
+
+        for line in csv_reader:
+
+            if line['date'] == dt and line['item'] == out:
+                para = line['price']
+                print(line['price'])
+
+
+    return render_template("resultsPrice.html", vegita = out, dte = dt, price = para, weight = wt, esti = math.trunc(int(para) * int(wt) / 1000))
+
+
+@app.route("/priceC", methods = ["POST"])
+def priceC():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+
+            print(filename)
+            image_path = filename
+            print("workinggggg")
+            today = date.today()
+            wt = random.randint(380, 560)
+            dt = today.strftime("%d/%m/%Y")
+            class_names = ['banana', 'cabbage', 'cucumber', 'mango', 'orange', 'tomato']
+            img = image.load_img(image_path, target_size=(224,224,3))
+    # img = image.load_img(request.urlopen(image_path), target_size=(224,224,3))
+            x = image.img_to_array(img)
+            x = np.expand_dims(x, axis=0)
+            images = np.vstack([x])
+            pred = model1.predict(images, batch_size=6)
+            label = np.argmax(pred, axis=1)
+            out = class_names[np.argmax(pred)]
+
+
+            with open('data/Predict_vegetable_2021_SL.csv', encoding="utf8") as f:
+                csv_reader = csv.DictReader(f)
+                next(csv_reader)
+
+                for line in csv_reader:
+
+                    if line['date'] == dt and line['item'] == out:
+                        para = line['price']
+                        print(line['price'])
+
+
+            return render_template("resultsPrice.html", vegita = out, dte = dt, price = para, weight = wt, esti = math.trunc(int(para) * int(wt) / 1000))
+
 
 
 if __name__ == '__main__':
