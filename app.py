@@ -24,9 +24,11 @@ UPLOAD_FOLDER = 'uploads'
 outFileFolder = './model/'
 fileP = outFileFolder + 'org_Cu_Model.joblib'
 stdp = outFileFolder + 'std_scaler.bin'
+
     #open file
 mfile = open(fileP, "rb")
 sfile = open(stdp, "rb")
+
 #load the trained model
 model = joblib.load(mfile) 
 sc_X = joblib.load(sfile)
@@ -36,7 +38,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-
+# Background remove image for classify organic inorganic
 def bg_sub(file):
     main_img  = cv2.imread(file)
     img = cv2.cvtColor(main_img, cv2.COLOR_BGR2RGB)
@@ -78,8 +80,8 @@ def bg_sub(file):
                 final_img[y,x] = white_pix
     return final_img
 
+# feature extraction for classify organic inorganic
 def feature_extract(img):  
-
     #Preprocessing
     gs = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gs, (25,25),0)
@@ -136,6 +138,7 @@ def feature_extract(img):
     return df_temp           
 #
 
+# firebase configuration
 config = {
 	"apiKey": "AIzaSyDbGBvceqiGUB-iPJN7AXXS-AyUx80cg6s",
     "authDomain": "esp32ndvi.firebaseapp.com",
@@ -151,11 +154,12 @@ firebase = pyrebase.initialize_app(config)
 
 db = firebase.database()
 
-app = Flask(__name__)
 #
+app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #
 
+# route for ndvi page
 @app.route('/ndvi', methods=['GET','POST'])
 def basic():
 	if request.method == 'POST':
@@ -182,11 +186,12 @@ def refresh(device_name):
     val_nir = dict_ndvi['nir']
     return render_template('orangeNdvi.html', n = val_ndvi , v = val_vis, r = val_nir ,key = ndvi.key(), conn = " Connected" )
     
-
+# Home 
 @app.route('/')
 def home():
 	    return render_template('client.html')
 
+# Cucumber classification
 @app.route("/cucumber")
 def template_test():
     return render_template('cucumberOrg.html', label='', imagesource='')
