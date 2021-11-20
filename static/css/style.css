@@ -3,6 +3,9 @@ body::before {
   content: '';
   height: 60px;
 }
+#imagecu{
+  width: 500px;
+}
 
 #map {
   width: 100%;
@@ -12,6 +15,11 @@ body::before {
 
 @media (min-width: 768px) {
   .news-input {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 767px) {
+  #imagecu{
     width: 50%;
   }
 }

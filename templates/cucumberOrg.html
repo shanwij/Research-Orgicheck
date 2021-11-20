@@ -145,7 +145,7 @@
                           {% if imagesource %}
                           <img
                             src="{{imagesource}}"
-                            style="width: 500px;"
+                            id="imagecu"
                             alt=""
                           />
                           {% endif %}
@@ -176,7 +176,7 @@
                           {% else %}
                           <img
                             src="{{ url_for('static',filename='img/wrong.gif') }}"
-                            style="width: 100px;"
+                            style="width: 50px;"
                             alt=""
                           />
                           <h5 class="card-title mb-3">Its {{pred1}}</h5>
