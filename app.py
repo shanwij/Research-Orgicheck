@@ -326,13 +326,8 @@ def priceC():
 # Sethma
 # Disease recognition
 IMAGE_SIZE = (224, 224)
-UPLOAD_FOLDER = 'static/img'
 img2 = load_model('model/diseases_model3.h5')
 
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 def predict(file):
@@ -348,12 +343,9 @@ def predict(file):
     return probs
 
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
 
 @app.route('/', methods=['GET', 'POST'])
-def upload_file():
+def upload_desease_file():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -369,10 +361,6 @@ def upload_file():
     return render_template("disease.html", label1=healthy,label2=sigatoka, imagesource=file_path)
 
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
 
 if __name__ == '__main__':
     app.run(debug=True , host = '192.168.1.100')
