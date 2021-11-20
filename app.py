@@ -19,7 +19,7 @@ from keras.models import load_model
 import csv
 
 #
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png', 'JPG'])
 UPLOAD_FOLDER = 'uploads'
 
 outFileFolder = './model/'
@@ -325,7 +325,6 @@ def priceC():
 
 # Sethma
 # Disease recognition
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png', 'JPG'])
 IMAGE_SIZE = (224, 224)
 UPLOAD_FOLDER = 'static/img'
 img2 = load_model('model/diseases_model3.h5')
@@ -349,14 +348,8 @@ def predict(file):
     return probs
 
 
-
-app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
-@app.route("/")
-def template_test():
-    return render_template('client.html', label='', imagesource='file://null')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -372,8 +365,6 @@ def upload_file():
             healthy = output[0]*100
             sigatoka = output[1]*100
             
-            
-           
            
     return render_template("disease.html", label1=healthy,label2=sigatoka, imagesource=file_path)
 
