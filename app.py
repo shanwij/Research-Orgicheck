@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 import numpy as np
 import pandas as pd
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
+from keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
 import pyrebase
 import joblib
 from PIL import Image
@@ -322,7 +323,65 @@ def priceC():
 
             return render_template("resultsPrice.html", vegita = out, dte = dt, price = para, weight = wt, esti = math.trunc(int(para) * int(wt) / 1000))
 
+# Sethma
+# Disease recognition
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png', 'JPG'])
+IMAGE_SIZE = (224, 224)
+UPLOAD_FOLDER = 'static/img'
+img2 = load_model('model/diseases_model3.h5')
 
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+def predict(file):
+    img  = load_img(file, target_size=IMAGE_SIZE)
+    img = img_to_array(img)/255.0
+    img = np.expand_dims(img, axis=0)
+    probs = img2.predict(img)[0]
+    #output = {'Healthy' : probs[0],'Sigatoka': probs[1]} 
+    #healthy = probs[0]*100
+    #sigatoka = probs[1]*100
+    output = {probs[0],probs[1]} 
+    
+    return probs
+
+
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+@app.route("/")
+def template_test():
+    return render_template('client.html', label='', imagesource='file://null')
+
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            output = predict(file_path)
+           # output = {probs[0],probs[1]} 
+            healthy = output[0]*100
+            sigatoka = output[1]*100
+            
+            
+           
+           
+    return render_template("disease.html", label1=healthy,label2=sigatoka, imagesource=file_path)
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 if __name__ == '__main__':
     app.run(debug=True , host = '192.168.1.100')

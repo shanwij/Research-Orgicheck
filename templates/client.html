@@ -111,21 +111,21 @@
                 </div>
                 <h3 class="card-title mb-3">Diseases</h3>
                 
-                <form action="/">
-                  <input class="btn btn-primary" type="file" id="img" name="img" accept="image/*">
+                <form action="/" method=post enctype=multipart/form-data>
+                  <input class="btn btn-primary" id="img" type=file name=file>
                   <br>
                   <br>
-                  <button data-bs-toggle="modal"
-                  data-bs-target="#diseases" class="btn btn-warning">Check with choosed image</button>
+                  <button class="btn btn-warning" type=submit>Check with choosed image</button>
                 </form>
 
                 or
                 <br>
                 <button data-bs-toggle="modal"
-                  data-bs-target="#diseases" class="btn btn-success">Check with captured image</button>
+                  data-bs-target="#diseases" class="btn btn-success" >Check with captured image</button>
               </div>
             </div>
           </div>
+
           <div class="col-md">
             <div class="card bg-dark text-light">
               <div class="card-body text-center">
