@@ -16,7 +16,9 @@ from io import BytesIO
 from keras_preprocessing import image
 from datetime import date
 from keras.models import load_model
-import csv
+import csv 
+from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Activation, Flatten, BatchNormalization, SeparableConv2D
+from keras.models import Sequential
 
 #
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png', 'JPG'])
