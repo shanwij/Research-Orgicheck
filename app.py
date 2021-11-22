@@ -19,7 +19,7 @@ from keras.models import load_model
 import csv 
 from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Activation, Flatten, BatchNormalization, SeparableConv2D
 from keras.models import Sequential
-
+from tensorflow.keras import datasets, layers, models
 #
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png', 'JPG'])
 UPLOAD_FOLDER = 'uploads'
@@ -362,6 +362,120 @@ def upload_desease_file():
            
     return render_template("disease.html", label1=healthy,label2=sigatoka, imagesource=file_path)
 
+# Lahiru(Quality & freshness annalysis)
+
+
+@app.route('/predict/<weight>/<pathss>')
+def predict(weight, pathss):
+
+    pic1 = "/static/img/" + pathss
+    path2 = "static/img/" + pathss
+
+    model = models.Sequential()
+
+    new_model = load_model('model/fruitType.h5')
+
+    img = cv2.imread(
+        path2, 1)
+    img = cv2.resize(img, (50, 50))
+    img = np.reshape(img, [1, 50, 50, 3])
+    predicted_value = np.argmax(model.predict(img))
+    print(model.predict(img))
+    type = ""
+    if predicted_value == 0:
+        type = "BANANA"
+    elif predicted_value == 1:
+        type = "TOMATO"
+    else:
+        type = "cant predict"
+
+    model = Sequential()
+    model.add(Conv2D(32, (3, 3), kernel_initializer='he_uniform',
+                     padding='same', activation='relu', input_shape=(100, 100, 3)))
+    model.add(BatchNormalization())
+    model.add(SeparableConv2D(32, (3, 3), kernel_initializer='he_uniform',
+                              padding='same', activation='relu'))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(BatchNormalization())
+    model.add(Dropout(0.3))
+
+    model.add(SeparableConv2D(64, (3, 3), kernel_initializer='he_uniform',
+                              padding='same', activation='relu'))
+    model.add(SeparableConv2D(64, (3, 3), kernel_initializer='he_uniform',
+                              padding='same', activation='relu'))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Dropout(0.4))
+
+    model.add(Conv2D(128, (3, 3), kernel_initializer='he_uniform',
+                     padding='same', activation='relu'))
+
+    model.add(Conv2D(128, (3, 3), kernel_initializer='he_uniform',
+                     padding='same', activation='relu'))
+    model.add(BatchNormalization())
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Dropout(0.5))
+
+    model.add(Flatten())
+
+    model.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
+    model.add(Dropout(0.3))
+    if type == "BANANA":
+        model.add(Dense(1, activation='sigmoid'))
+        new_model = load_model(
+            'model/Banana.h5')
+    else:
+        model.add(Dense(1, activation='sigmoid'))
+        new_model = load_model(
+            'model/Tomato.h5')
+
+    imge = cv2.imread(
+        path2, 1)
+    imge = cv2.cvtColor(imge, cv2.COLOR_BGR2RGB)
+    imge = cv2.resize(imge, (100, 100))
+    imge = np.reshape(imge, [1, 100, 100, 3])
+    imge = np.array(imge).astype('float32')/255
+    predicted_value = model.predict_classes(imge)
+    print(predicted_value)
+    print(model.predict(imge))
+
+    outputs = ""
+    if type == "BANANA":
+        if predicted_value == 0:
+            outputs = "Fresh Banana"
+        elif predicted_value == 1:
+            outputs = "Rotten Banana"
+        else:
+            outputs = "Cant predict"
+
+    else:
+        if predicted_value == 0:
+            outputs = "Fresh Tomato"
+        elif predicted_value == 1:
+            outputs = "Rotten Tomato"
+        else:
+            outputs = "Cant predict"
+
+    gram = 0.0
+    quality = ""
+    size = ""
+    weight1 = float(weight)
+
+    gram = weight1 * 1000
+
+    if gram < 114:
+        size = "Small"
+        quality = "Grade A"
+    elif gram < 151:
+        size = "Medium"
+        quality = "Grade B"
+    elif gram > 151:
+        size = "Large"
+        quality = "Grade C"
+    else:
+        size = "Cant predict"
+
+    return render_template("predict.html", Predicted=outputs, type=type, weight=gram, sizee=size, qualityy=quality, paths=pic1)
 
 
 if __name__ == '__main__':
