@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js">
+  </script>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
+  <!-- <link rel="stylesheet" href="css/style.css" /> -->
+  <title>OrgiCheck</title>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top">
+    <div class="container">
+      <a href="#" class="navbar-brand">OrgiCheck</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a href="#cam" class="nav-link">Device Connection</a>
+          </li>
+          <li class="nav-item">
+            <a href="#team" class="nav-link">Team</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Check Sections -->
+  <section id="cam" class="p-5 bg-dark text-light">
+    <div class="container">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-md p-5">
+          <div class="col-md " id="objectimg">
+            <img
+              src={{paths}} width="404" height="303">
+          </div>
+
+        </div>
+        <div class="col-md p-5">
+          <h3>Fruit Type : {{type}}</h3>
+          <h3>Predicted Output : {{Predicted}}</h3>
+          <h3>Weight : {{weight}}</h3>
+          <h3>Size : {{sizee}}</h3>
+          <h3>Quality : {{qualityy}}</h3>
+
+          <button onclick="analyse()" class="btn btn-light mt-3"><i class="bi bi-chevron-right"></i> Analyse
+            Again</button>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Boxes -->
+  <section id="check" class="p-5">
+    <div class="container">
+      <div class="row text-center g-4">
+        <div class="col-md">
+          <div class="card bg-dark text-light">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <i class="bi bi-bookmark-heart"></i>
+              </div>
+              <h3 class="card-title mb-3">Organicness</h3>
+              <button data-bs-toggle="modal" data-bs-target="#organic" class="btn btn-success">Check</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card bg-dark text-light">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <i class="bi bi-bug"></i>
+              </div>
+              <h3 class="card-title mb-3">Diseases</h3>
+              <button data-bs-toggle="modal" data-bs-target="#diseases" class="btn btn-success">Check</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card bg-dark text-light">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <i class="bi bi-hand-thumbs-up"></i>
+              </div>
+              <h3 class="card-title mb-3">Quality</h3>
+              <a href="client.html" class="btn btn-success">Check</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="card bg-dark text-light">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <i class="bi bi-cash"></i>
+              </div>
+              <h3 class="card-title mb-3">Price</h3>
+              <button data-bs-toggle="modal" data-bs-target="#price" class="btn btn-success">Check</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="team" class="p-5 bg-success">
+    <div class="container">
+      <h2 class="text-center text-white">Our Team</h2>
+      <p class="lead text-center text-white mb-5">
+        The team behind <span class="text-warning"> OrgiCheck&trade; Smart</span>
+      </p>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="card bg-light">
+            <div class="card-body text-center">
+              <img src="https://randomuser.me/api/portraits/men/11.jpg" class="rounded-circle mb-3" alt="" />
+              <h3 class="card-title mb-3">Giwantha Wijekoon</h3>
+              <p class="card-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
+              </p>
+              <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card bg-light">
+            <div class="card-body text-center">
+              <img src="https://randomuser.me/api/portraits/men/12.jpg" class="rounded-circle mb-3" alt="" />
+              <h3 class="card-title mb-3">Lakshan Wijewardane</h3>
+              <p class="card-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Assgnn hnhnnj
+              </p>
+              <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card bg-light">
+            <div class="card-body text-center">
+              <img src="https://randomuser.me/api/portraits/men/12.jpg" class="rounded-circle mb-3" alt="" />
+              <h3 class="card-title mb-3">Lahiru Sanka Kumara</h3>
+              <p class="card-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
+              </p>
+              <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card bg-light">
+            <div class="card-body text-center">
+              <img src="https://randomuser.me/api/portraits/women/12.jpg" class="rounded-circle mb-3" alt="" />
+              <h3 class="card-title mb-3">Sethma Wattegedara</h3>
+              <p class="card-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Assumenda accusamus nobis sed cupiditate iusto? Quibusdam.
+              </p>
+              <a href="#"><i class="bi bi-twitter text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-facebook text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-linkedin text-dark mx-1"></i></a>
+              <a href="#"><i class="bi bi-instagram text-dark mx-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Map -->
+  <section class="p-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md">
+          <h2 class="text-center mb-4">Contact Info</h2>
+          <ul class="list-group list-group-flush lead">
+            <li class="list-group-item">
+              <span class="fw-bold">Main Location:</span> 50 Main st Malabe
+            </li>
+            <li class="list-group-item">
+              <span class="fw-bold">Phone No:</span> (+94) 11-5555-555
+            </li>
+            <li class="list-group-item">
+              <span class="fw-bold">WhatsApp No:</span> (+94) 11-5555-555
+            </li>
+            <li class="list-group-item">
+              <span class="fw-bold">Email:</span>
+              info@orgicheck.com
+            </li>
+          </ul>
+        </div>
+        <div class="col-md">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="p-5 bg-dark text-white text-center position-relative">
+    <div class="container">
+      <p class="lead">Copyright &copy; 2021 OrgiCheck</p>
+
+      <a href="#" class="position-absolute bottom-0 end-0 p-5">
+        <i class="bi bi-arrow-up-circle h1"></i>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Modal for Organic -->
+  <div class="modal fade" id="organic" tabindex="-1" aria-labelledby="enrollLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="enrollLabel">Organic</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="lead">eqggggggggg</p>
+          <form>
+            <div class="mb-3">
+              <label class="col-form-label">
+                grgggggggg
+              </label>
+              <label class="col-form-label">
+                grrrrrrr
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">rwg</label>
+              <label class="col-form-label">
+                500g
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">wrwrgwrg:</label>
+              <label class="col-form-label">LKR. 80.00</label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">eqqqqqqqqqq:</label>
+              <label class="col-form-label">LKR. 40.00</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Diseases -->
+  <div class="modal fade" id="diseases" tabindex="-1" aria-labelledby="enrollLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="enrollLabel">Diseases</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="lead">bvbvbhbvhbhv</p>
+          <form>
+            <div class="mb-3">
+              <label class="col-form-label">
+                veeweee
+              </label>
+              <label class="col-form-label">
+                qeveqeqeq
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Aveeeve</label>
+              <label class="col-form-label">
+                vewv
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">wwwwwww:</label>
+              <label class="col-form-label">vvvvvvvv</label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">wwwwwwww</label>
+              <label class="col-form-label">LKR. 40.00</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Quality -->
+  <div class="modal fade" id="quality" tabindex="-1" aria-labelledby="enrollLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="enrollLabel">Quality</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="lead">ggggggggggggg</p>
+          <form>
+            <div class="mb-3">
+              <label class="col-form-label">
+                grgrgeh:
+              </label>
+              <label class="col-form-label">
+                Mahehengo
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">wjtje:</label>
+              <label class="col-form-label">
+                500g
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">rwhwhrhr:</label>
+              <label class="col-form-label">wrgttfbht</label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">egwgwg</label>
+              <label class="col-form-label">522</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Price -->
+  <div class="modal fade" id="price" tabindex="-1" aria-labelledby="enrollLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="enrollLabel">Price Prediction</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="lead">Estimated Price for scanned item</p>
+          <form>
+            <div class="mb-3">
+              <label class="col-form-label">
+                Detected Item:
+              </label>
+              <label class="col-form-label">
+                Mango
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Approximate Weight:</label>
+              <label class="col-form-label">
+                500g
+              </label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Price per 1kg:</label>
+              <label class="col-form-label">LKR. 80.00</label>
+            </div>
+            <div class="mb-3">
+              <label class="col-form-label">Estimated Price:</label>
+              <label class="col-form-label">LKR. 40.00</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+
+  <script>
+    var W_value = 0.00
+    // setInterval(function () {
+
+
+    //   var xmlHttp;
+    //   if (window.XMLHttpRequest) {
+    //     xmlHttp = new XMLHttpRequest();
+    //   } else if (window.ActiveXObject) {
+    //     xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+    //   } else {
+    //     alert("Browser Doesnt Support Ajax!");
+    //   }
+    //   if (xmlHttp !== null) {
+
+    //     xmlHttp.onreadystatechange = async function () {
+    //       if (xmlHttp.readyState === 4) {
+
+    //         var res = xmlHttp.responseText;
+
+    //         W_value = res;
+    //         $("#weight").html(W_value);
+
+
+    //       }
+
+    //     };
+    //     xmlHttp.open("GET", "http://192.168.1.5/GetValue/", true);
+    //     xmlHttp.send();
+
+    //   }
+
+    // }, 1000);
+
+    function analyse() {
+
+
+      window.location.href = "http://192.168.1.5/";
+
+    }
+
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoiYnRyYXZlcnN5IiwiYSI6ImNrbmh0dXF1NzBtbnMyb3MzcTBpaG10eXcifQ.h5ZyYCglnMdOLAGGiL1Auw'
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [79.9696, 6.9061],
+      zoom: 13,
+    })
+  </script>
+
+</body>
+
+</html>
