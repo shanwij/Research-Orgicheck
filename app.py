@@ -327,22 +327,22 @@ def priceC():
 
 # Sethma
 # Disease recognition
-#MAGE_SIZE = (224, 224)
-#img2 = load_model('model/diseases_model3.h5')
+IMAGE_SIZE = (224, 224)
+img2 = load_model('model/diseases_model3.h5')
 
 
 
-#def predict(file):
-#    img  = load_img(file, target_size=IMAGE_SIZE)
-#    img = img_to_array(img)/255.0
-#    img = np.expand_dims(img, axis=0)
-#    probs = img2.predict(img)[0]
+def predict(file):
+   img  = load_img(file, target_size=IMAGE_SIZE)
+   img = img_to_array(img)/255.0
+   img = np.expand_dims(img, axis=0)
+   probs = img2.predict(img)[0]
     #output = {'Healthy' : probs[0],'Sigatoka': probs[1]} 
     #healthy = probs[0]*100
     #sigatoka = probs[1]*100
-#    output = {probs[0],probs[1]} 
+   output = {probs[0],probs[1]} 
     
- #   return probs
+   return probs
 
 
 
@@ -479,4 +479,4 @@ def predict(weight, pathss):
 
 
 if __name__ == '__main__':
-     app.run(debug=True)
+     app.run(debug=True , host = '192.168.1.100')
